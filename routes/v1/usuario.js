@@ -1,17 +1,17 @@
 var express = require('express');
 var app = express();
 var bcrypt = require('bcryptjs');
-var Usuario = require('../models/usuario')
-
 var jwt = require('jsonwebtoken');
-var mdAutenticacion = require('../middlewares/autenticacion');
+
+var usuarioModel = require('./../../models/v1/usuario');
+var mdAutenticacion = require('./../../middlewares/v1/autenticacion');
 
 // ==========================================
 // obtener todos los usuarios
 // ==========================================
-app.get('/', mdAutenticacion.verificaToken, (req, res, next) => {
+app.get('/usuario/', mdAutenticacion.verificaToken, (req, res) => {
 
-    Usuario.find({}).exec(
+    usuarioModel.find({}).exec(
         (err, usuarios) => {
             if (err) {
                 return res.status(500).json({
@@ -33,12 +33,12 @@ app.get('/', mdAutenticacion.verificaToken, (req, res, next) => {
 // ==========================================
 // actualizar un usuario
 // ==========================================
-app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
+app.put('/usuario/:id', mdAutenticacion.verificaToken, (req, res) => {
 
     var id = req.params.id
     var body = req.body;
 
-    Usuario.findById(id, (err, usuario) => {
+    usuarioModel.findById(id, (err, usuario) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -67,7 +67,7 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
                 });
             }
 
-            usuarioGuardado.password = ':v' // se mostrar esto como la contraseña, pero solo es en la respuesta del guardado
+            usuarioGuardado.password = '🙂'; // se mostrar esto como la contraseña, pero solo es en la respuesta del guardado
 
             res.status(200).json({
                 ok: true,
@@ -85,11 +85,11 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
 // npm install mongoose-unique-validator --save =========== para las validaciones de correo
 
 //si es necesario restringir la creaciond e usuarios
-app.post('/', mdAutenticacion.verificaToken, (req, res) => {
+app.post('/usuario/', mdAutenticacion.verificaToken, (req, res) => {
 
     var body = req.body;
 
-    var usuario = new Usuario({
+    var usuario = new usuarioModel({
         nombre: body.nombre,
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
@@ -121,7 +121,7 @@ app.post('/', mdAutenticacion.verificaToken, (req, res) => {
 
 //     var id = req.params.id;
 
-//     Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
+//     usuarioModel.findByIdAndRemove(id, (err, usuarioBorrado) => {
 //         if (err) {
 //             return res.status(500).json({
 //                 ok: false,

@@ -1,17 +1,17 @@
 var express = require('express');
 var app = express();
 var bcrypt = require('bcryptjs');
-var Estado = require('../models/estado')
-
 var jwt = require('jsonwebtoken');
-var mdAutenticacion = require('../middlewares/autenticacion');
+
+var estadoModel = require('./../../models/v1/estado');
+var mdAutenticacion = require('./../../middlewares/v1/autenticacion');
 
 // ==========================================
 // obtener todos los estados
 // ==========================================
-app.get('/', (req, res, next) => {
+app.get('/estado/', mdAutenticacion.verificaToken, (req, res) => {
 
-    Estado.find({}).exec(
+    estadoModel.find({}).exec(
         (err, estados) => {
             if (err) {
                 return res.status(500).json({
@@ -32,12 +32,12 @@ app.get('/', (req, res, next) => {
 // ==========================================
 // actualizar un estado
 // ==========================================
-app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
+app.put('/estado/:id', mdAutenticacion.verificaToken, (req, res) => {
 
     var id = req.params.id
     var body = req.body;
 
-    Estado.findById(id, (err, estado) => {
+    estadoModel.findById(id, (err, estado) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -80,11 +80,11 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
 // npm install mongoose-unique-validator --save =========== para las validaciones de correo
 
 //si es necesario restringir la creaciond e usuarios
-app.post('/', mdAutenticacion.verificaToken, (req, res) => {
+app.post('/estado/', mdAutenticacion.verificaToken, (req, res) => {
 
     var body = req.body;
 
-    var estado = new Estado({
+    var estado = new estadoModel({
         nombre: body.nombre
     });
 
@@ -109,11 +109,11 @@ app.post('/', mdAutenticacion.verificaToken, (req, res) => {
 // ==========================================
 // borrar un usuario
 // ==========================================
-app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
+app.delete('/estado/:id', mdAutenticacion.verificaToken, (req, res) => {
 
     var id = req.params.id;
 
-    Estado.findByIdAndRemove(id, (err, estadoBorrado) => {
+    estadoModel.findByIdAndRemove(id, (err, estadoBorrado) => {
         if (err) {
             return res.status(500).json({
                 ok: false,

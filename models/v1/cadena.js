@@ -5,7 +5,14 @@ var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 
 var cadenaSchema = new Schema({
-    nombre: { type: String, required: [true, 'la cadena es necesario'] },
+    nombre: { 
+        type: String, 
+        required: [true, 'la cadena es necesario'] 
+    },
+    disponible: {
+        type: Boolean, 
+        default: true
+    },
 
 });
 

@@ -1,17 +1,8 @@
-var express = require('express');
-var app = express();
-var bcrypt = require('bcryptjs');
-var Cadena = require('../models/cadena')
+var cadenaModel = require('./../../models/v1/cadena');
 
-var jwt = require('jsonwebtoken');
-var mdAutenticacion = require('../middlewares/autenticacion');
+function getCadenas(req, res){
 
-// ==========================================
-// obtener todos los estados
-// ==========================================
-app.get('/', (req, res, next) => {
-
-    Cadena.find({}).exec(
+    cadenaModel.find({}).exec(
         (err, cadenas) => {
             if (err) {
                 return res.status(500).json({
@@ -27,17 +18,14 @@ app.get('/', (req, res, next) => {
             });
 
         });
-});
+}
 
-// ==========================================
-// actualizar un cadena
-// ==========================================
-app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
+function updateCadena(req, res){
 
-    var id = req.params.id
+    var id = req.params.id;
     var body = req.body;
 
-    Cadena.findById(id, (err, cadena) => {
+    cadenaModel.findById(id, (err, cadena) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -49,13 +37,13 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
         if (!cadena) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'el cadena con el id ' + id + ' no existe',
+                mensaje: 'La cadena con el id ' + id + ' no existe',
                 errors: err
             });
         }
 
         cadena.nombre = body.nombre;
-        cadena.save((err, cadenaGuardado) => {
+        cadena.save((err, cadenaActualizado) => {
 
             if (err) {
                 return res.status(400).json({
@@ -66,25 +54,19 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
             }
             res.status(200).json({
                 ok: true,
-                cadena: cadenaGuardado
+                cadena: cadenaActualizado
             });
 
         });
 
     });
-});
+}
 
-// ==========================================
-// crear un nuevo cadena 
-// ==========================================
-// npm install mongoose-unique-validator --save =========== para las validaciones de correo
-
-//si es necesario restringir la creaciond e usuarios
-app.post('/', mdAutenticacion.verificaToken, (req, res) => {
+function saveCadena(req, res){
 
     var body = req.body;
 
-    var cadena = new Cadena({
+    var cadena = new cadenaModel({
         nombre: body.nombre
     });
 
@@ -104,40 +86,43 @@ app.post('/', mdAutenticacion.verificaToken, (req, res) => {
 
     });
 
-});
+}
 
-// ==========================================
-// borrar un usuario
-// ==========================================
-app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
+function changeAvailability(req, res){
 
     var id = req.params.id;
+    var body = req.body;
 
-    Cadena.findByIdAndRemove(id, (err, cadenaBorrado) => {
+    cadenaModel.findOneAndUpdate({ "_id": id }, { "$set": { "disponible": body.disponible } }, (err, cadenaActualizado) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error al borrar cadena',
+                mensaje: 'Error al actualizar la disponible de la cadena',
                 errors: err
             });
         }
 
-        if (!cadenaBorrado) {
+        if (!cadenaActualizado) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'no existe un cadena con ese id',
+                mensaje: 'No existe un cadena con ese id',
                 errors: err
             });
         }
 
         res.status(200).json({
             ok: true,
-            message: 'el siguiente cadena fue borrado',
-            cadena: cadenaBorrado
+            message: 'La siguiente cadena fue actualizada',
+            cadena: cadenaActualizado
         });
 
     });
 
-});
+}
 
-module.exports = app;
+module.exports = {
+    getCadenas: getCadenas,
+    updateCadena: updateCadena,
+    saveCadena: saveCadena,
+    changeAvailability: changeAvailability
+};

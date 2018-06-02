@@ -1,10 +1,10 @@
 var express = require('express');
 var app = express();
 
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
     res.status(200).json({
         ok: true,
-        mensaje: 'petición realizada correctamente'
+        mensaje: 'Bienvenido al API DE SEP'
     });
 });
 
