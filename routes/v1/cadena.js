@@ -18,9 +18,7 @@ app.put('/cadena/:id', mdAutenticacion.verificaToken, cadenaController.updateCad
 // ==========================================
 // crear un nuevo cadena 
 // ==========================================
-// npm install mongoose-unique-validator --save =========== para las validaciones de correo
 
-//si es necesario restringir la creaciond e usuarios
 app.post('/cadena/', mdAutenticacion.verificaToken, cadenaController.saveCadena);
 
 // ==========================================

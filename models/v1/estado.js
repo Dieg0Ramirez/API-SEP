@@ -6,11 +6,11 @@ var Schema = mongoose.Schema;
 
 var estadoSchema = new Schema({
     nombre: {
-        type: String, 
-        required: [true, 'El nombre es necesario'] 
+        type: String,
+        required: [true, 'El nombre es necesario']
     },
     disponible: {
-        type: Boolean, 
+        type: Boolean,
         default: true
     },
 });
