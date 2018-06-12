@@ -9,7 +9,7 @@ var mdAutenticacion = require('./../../middlewares/v1/autenticacion');
 // ==========================================
 // obtener todos los usuarios
 // ==========================================
-app.get('/usuario/', mdAutenticacion.verificaToken, usuarioController.getUsuario);
+app.get('/usuario/', /*mdAutenticacion.verificaToken, */ usuarioController.getUsuario);
 
 // ==========================================
 // actualizar un usuario
@@ -20,7 +20,7 @@ app.put('/usuario/:id', mdAutenticacion.verificaToken, usuarioController.updateU
 // crear un nuevo usuarios 
 // ==========================================
 
-app.post('/usuario/', /*mdAutenticacion.verificaToken,*/ usuarioController.saveUsuario);
+app.post('/usuario/', mdAutenticacion.verificaToken, usuarioController.saveUsuario);
 
 
 

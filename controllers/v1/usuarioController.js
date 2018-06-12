@@ -47,7 +47,6 @@ function updateUsuario(req, res) {
             });
         }
         usuario.nombre = body.nombre;
-        usuario.email = body.email;
         usuario.save((err, usuarioGuardado) => {
 
             if (err) {
