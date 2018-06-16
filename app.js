@@ -22,6 +22,7 @@ var usuarioRoutesV1 = require('./routes/v1/usuario');
 var loginRoutesV1 = require('./routes/v1/login');
 var estodoRoutesV1 = require('./routes/v1/estado');
 var cadenaRoutesV1 = require('./routes/v1/cadena');
+var programaRoutesV1 = require('./routes/v1/programa')
 
 //conexion a la base de datos
 
@@ -39,6 +40,7 @@ app.use('/api/v1', cadenaRoutesV1);
 app.use('/api/v1', estodoRoutesV1);
 app.use('/api/v1', loginRoutesV1);
 app.use('/api/v1', usuarioRoutesV1);
+app.use('/api/v1', programaRoutesV1);
 app.use('/api/v1', appRoutesV1);
 
 

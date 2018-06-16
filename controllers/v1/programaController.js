@@ -1,60 +1,62 @@
-var cadenaModel = require('./../../models/v1/cadena');
+var programaModel = require('./../../models/v1/programa');
 
-function getCadenas(req, res) {
+function getProgramas(req, res) {
 
-    cadenaModel.find({}).exec(
-        (err, cadenas) => {
+    programaModel.find({}).exec(
+        (err, programas) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,
-                    mensaje: 'Error cargando estados',
+                    mensaje: 'Error cargando programas',
                     errors: err
                 });
             }
 
             res.status(200).json({
                 ok: true,
-                cadenas: cadenas
+                programas: programas
             });
 
         });
 }
 
-function updateCadena(req, res) {
+function updatePrograma(req, res) {
 
     var id = req.params.id;
     var body = req.body;
 
-    cadenaModel.findById(id, (err, cadena) => {
+    programaModel.findById(id, (err, programa) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error al buscar cadena',
+                mensaje: 'Error al buscar el programa',
                 errors: err
             });
         }
 
-        if (!cadena) {
+        if (!programa) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'La cadena con el id ' + id + ' no existe',
+                mensaje: 'El programa con el id ' + id + ' no existe',
                 errors: err
             });
         }
 
-        cadena.nombre = body.nombre;
-        cadena.save((err, cadenaActualizado) => {
+        programa.nombre = body.nombre;
+        programa.nivelFormacion = body.nivelFormacion;
+
+        programa.save((err, programaActualizado) => {
 
             if (err) {
                 return res.status(400).json({
                     ok: false,
-                    mensaje: 'Error al actualizar cadena',
+                    mensaje: 'Error al actualizar programa',
                     errors: err
                 });
             }
             res.status(200).json({
                 ok: true,
-                cadena: cadenaActualizado
+                programa: programaActualizado
             });
 
         });
@@ -62,26 +64,27 @@ function updateCadena(req, res) {
     });
 }
 
-function saveCadena(req, res) {
+function savePrograma(req, res) {
 
     var body = req.body;
 
-    var cadena = new cadenaModel({
-        nombre: body.nombre
+    var programa = new programaModel({
+        nombre: body.nombre,
+        nivelFormacion: body.nivelFormacion
     });
 
-    cadena.save((err, cadenaGuardado) => {
+    programa.save((err, programaGuardado) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'Error al crear la cadena',
+                mensaje: 'Error al crear programa',
                 errors: err
             });
         }
 
         res.status(201).json({
             ok: true,
-            cadena: cadenaGuardado,
+            programa: programaGuardado,
         });
 
     });
@@ -93,27 +96,27 @@ function changeAvailability(req, res) {
     var id = req.params.id;
     var body = req.body;
 
-    cadenaModel.findOneAndUpdate({ "_id": id }, { "$set": { "disponible": body.disponible } }, (err, cadenaActualizado) => {
+    programaModel.findOneAndUpdate({ "_id": id }, { "$set": { "disponible": body.disponible } }, (err, programaActualizado) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error al actualizar la disponibilidad de la cadena',
+                mensaje: 'Error al actualizar la disponibilidad del programa',
                 errors: err
             });
         }
 
-        if (!cadenaActualizado) {
+        if (!programaActualizado) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'No existe un cadena con ese id',
+                mensaje: 'No existe el programa con ese id',
                 errors: err
             });
         }
 
         res.status(200).json({
             ok: true,
-            message: 'La siguiente cadena fue actualizada',
-            cadena: cadenaActualizado
+            message: 'El siguiente programa fue actualizado',
+            programa: programaActualizado
         });
 
     });
@@ -121,8 +124,8 @@ function changeAvailability(req, res) {
 }
 
 module.exports = {
-    getCadenas: getCadenas,
-    updateCadena: updateCadena,
-    saveCadena: saveCadena,
+    getProgramas: getProgramas,
+    updatePrograma: updatePrograma,
+    savePrograma: savePrograma,
     changeAvailability: changeAvailability
 };

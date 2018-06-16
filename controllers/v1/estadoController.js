@@ -97,7 +97,7 @@ function changeAvailability(req, res) {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error al actualizar la disponible del estado',
+                mensaje: 'Error al actualizar la disponibilidad del estado',
                 errors: err
             });
         }

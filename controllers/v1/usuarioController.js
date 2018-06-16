@@ -6,7 +6,10 @@ usuarioModel = require('./../../models/v1/usuario');
 
 function getUsuario(req, res) {
 
-    usuarioModel.find({}).exec(
+    var desde = req.query.desde || 0;
+    desde = Number(desde);
+
+    usuarioModel.find({}, 'nombre email rol disponible').skip(desde).limit(10).exec(
         (err, usuarios) => {
             if (err) {
                 return res.status(500).json({
@@ -77,6 +80,7 @@ function saveUsuario(req, res) {
         nombre: body.nombre,
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
+        rol: body.rol,
     });
 
     usuario.save((err, usuarioGuardado) => {
@@ -108,7 +112,7 @@ function changeAvailability(req, res) {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error al actualizar la disponible del usuario',
+                mensaje: 'Error al actualizar la disponibilidad del usuario',
                 errors: err
             });
         }
