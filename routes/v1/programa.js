@@ -7,18 +7,18 @@ var mdAutenticacion = require('./../../middlewares/v1/autenticacion');
 // ==========================================
 // obtener todos los estados
 // ==========================================
-app.get('/programa/', mdAutenticacion.verificaToken, programaController.getprogramas);
+app.get('/programa/', mdAutenticacion.verificaToken, programaController.getProgramas);
 
 // ==========================================
 // actualizar un programa
 // ==========================================
-app.put('/programa/:id', mdAutenticacion.verificaToken, programaController.updateprograma);
+app.put('/programa/:id', mdAutenticacion.verificaToken, programaController.updatePrograma);
 
 // ==========================================
 // crear un nuevo programa 
 // ==========================================
 
-app.post('/programa/', mdAutenticacion.verificaToken, programaController.saveprograma);
+app.post('/programa/', mdAutenticacion.verificaToken, programaController.savePrograma);
 
 // ==========================================
 // borrar un usuario
