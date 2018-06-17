@@ -19,10 +19,14 @@ function getUsuario(req, res) {
                 });
             }
 
-            res.status(200).json({
-                ok: true,
-                usuarios: usuarios,
-                otros: req.usuario
+            usuarioModel.count({}, (err, conteo) => {
+                res.status(200).json({
+                    ok: true,
+                    usuarios: usuarios,
+                    otros: req.usuario,
+                    total: conteo,
+                });
+
             });
 
         });
