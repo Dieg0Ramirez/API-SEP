@@ -23,6 +23,8 @@ var loginRoutesV1 = require('./routes/v1/login');
 var estodoRoutesV1 = require('./routes/v1/estado');
 var cadenaRoutesV1 = require('./routes/v1/cadena');
 var programaRoutesV1 = require('./routes/v1/programa')
+var nivelFormacionV1 = require('./routes/v1/nivelFormacion');
+var tipoDocumentoV1 = require('./routes/v1/tipoDocumento');
 
 //conexion a la base de datos
 
@@ -36,12 +38,15 @@ mongoose.connection.openUri(`mongodb://${hostMongo}:${portMongo}/seguimiento_sep
 });
 
 //rutas
+app.use('/api/v1', tipoDocumentoV1);
+app.use('/api/v1', nivelFormacionV1);
 app.use('/api/v1', cadenaRoutesV1);
 app.use('/api/v1', estodoRoutesV1);
 app.use('/api/v1', loginRoutesV1);
 app.use('/api/v1', usuarioRoutesV1);
 app.use('/api/v1', programaRoutesV1);
 app.use('/api/v1', appRoutesV1);
+
 
 
 //activar servidor
