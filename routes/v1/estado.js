@@ -1,7 +1,5 @@
 var express = require('express');
 var app = express();
-var bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
 var estadoController = require('./../../controllers/v1/estadoController');
 var mdAutenticacion = require('./../../middlewares/v1/autenticacion');
 

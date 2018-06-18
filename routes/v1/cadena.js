@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var jwt = require('jsonwebtoken');
 
 var cadenaController = require('../../controllers/v1/cadenaController');
 var mdAutenticacion = require('./../../middlewares/v1/autenticacion');
