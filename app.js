@@ -18,18 +18,16 @@ app.use(bodyParser.json());
 
 //importar rutas
 var appRoutesV1 = require('./routes/v1/app');
-var usuarioRoutesV1 = require('./routes/v1/usuario');
-var loginRoutesV1 = require('./routes/v1/login');
-var estodoRoutesV1 = require('./routes/v1/estado');
-var cadenaRoutesV1 = require('./routes/v1/cadena');
-<<<<<<< HEAD
-var busquedaRoutesV1 = require('./routes/v1/busqueda');
-var programaRoutesV1 = require('./routes/v1/programa');
-=======
-var programaRoutesV1 = require('./routes/v1/programa')
-var nivelFormacionV1 = require('./routes/v1/nivelFormacion');
-var tipoDocumentoV1 = require('./routes/v1/tipoDocumento');
->>>>>>> a30dfd1ccb0e9999c6fb4dfdf03ee68260fb74f9
+var usuarioRoutesV1 = require('./routes/v1/usuarioRoutes');
+var loginRoutesV1 = require('./routes/v1/loginRoutes');
+var estodoRoutesV1 = require('./routes/v1/estadoRoutes');
+var cadenaRoutesV1 = require('./routes/v1/cadenaRoutes');
+var busquedaRoutesV1 = require('./routes/v1/busquedaRoutes');
+var programaRoutesV1 = require('./routes/v1/programaRoutes');
+var programaRoutesV1 = require('./routes/v1/programaRoutes')
+var nivelFormacionV1 = require('./routes/v1/nivelFormacionRoutes');
+var tipoDocumentoV1 = require('./routes/v1/tipoDocumentoRoutes');
+var fichaV1 = require('./routes/v1/fichaRoutes');
 
 //conexion a la base de datos
 
@@ -43,6 +41,7 @@ mongoose.connection.openUri(`mongodb://${hostMongo}:${portMongo}/seguimiento_sep
 });
 
 //rutas
+app.use('/api/v1', fichaV1);
 app.use('/api/v1', tipoDocumentoV1);
 app.use('/api/v1', nivelFormacionV1);
 app.use('/api/v1', cadenaRoutesV1);

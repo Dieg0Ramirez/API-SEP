@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
-usuarioModel = require('./../../models/v1/usuario');
+usuarioModel = require('../../models/v1/usuarioModel');
 var SEED = require('./../../config/config').SEED;
 
 

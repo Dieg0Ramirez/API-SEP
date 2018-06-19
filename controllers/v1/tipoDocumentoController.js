@@ -1,4 +1,4 @@
-var tipoDocumentoModel = require('./../../models/v1/tipoDocumento');
+var tipoDocumentoModel = require('../../models/v1/tipoDocumentoModel');
 
 function getTipoDocumento(req, res) {
 

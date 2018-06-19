@@ -1,4 +1,4 @@
-var nivelFromacionModel = require('./../../models/v1/nivelFormacion');
+var nivelFromacionModel = require('../../models/v1/nivelFormacionModel');
 
 function getNivelFormacion(req, res) {
 

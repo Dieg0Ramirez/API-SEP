@@ -1,4 +1,4 @@
-var estadoModel = require('./../../models/v1/estado');
+var estadoModel = require('../../models/v1/estadoModel');
 
 function getEstado(req, res) {
 

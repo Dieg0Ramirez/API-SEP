@@ -1,11 +1,11 @@
 var express = require('express');
 var app = express();
-usuarioModel = require('./../../models/v1/usuario');
+usuarioModel = require('../../models/v1/usuarioModel');
 
-function getUsuario(req, res) {
+function searchUsuario(req, res) {
 
-    var busqueda = req.params.busqueda;
-    var exRe = new RegExp(busqueda, 'i');
+    var termino = req.params.termino;
+    var exRe = new RegExp(termino, 'i');
 
     return new Promise((resolve, reject) => {
 
@@ -23,4 +23,6 @@ function getUsuario(req, res) {
 
 }
 
-module.exports = getUsuario;
+module.exports = {
+    searchUsuario: searchUsuario
+};

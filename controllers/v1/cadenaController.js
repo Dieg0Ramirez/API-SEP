@@ -1,4 +1,4 @@
-var cadenaModel = require('./../../models/v1/cadena');
+var cadenaModel = require('../../models/v1/cadenaModel');
 
 function getCadenas(req, res) {
 

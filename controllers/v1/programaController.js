@@ -1,4 +1,4 @@
-var programaModel = require('./../../models/v1/programa');
+var programaModel = require('../../models/v1/programaModel');
 
 function getProgramas(req, res) {
 
