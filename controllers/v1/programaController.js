@@ -12,9 +12,12 @@ function getProgramas(req, res) {
                 });
             }
 
-            res.status(200).json({
-                ok: true,
-                programas: programas
+            programaModel.count({}, (err, conteo) => {
+                res.status(200).json({
+                    ok: true,
+                    programas: programas,
+                    total: conteo,
+                });
             });
 
         });
