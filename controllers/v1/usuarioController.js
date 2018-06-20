@@ -6,10 +6,7 @@ usuarioModel = require('../../models/v1/usuarioModel');
 
 function getUsuario(req, res) {
 
-    var desde = req.query.desde || 0;
-    desde = Number(desde);
-
-    usuarioModel.find({}, 'nombre email rol disponible').skip(desde).limit(10).exec(
+    usuarioModel.find({}, 'nombre email rol disponible').exec(
         (err, usuarios) => {
             if (err) {
                 return res.status(500).json({
