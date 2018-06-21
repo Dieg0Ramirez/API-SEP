@@ -34,7 +34,8 @@ function updateUsuario(req, res) {
     var id = req.params.id
     var body = req.body;
 
-    usuarioModel.findById(id, (err, usuario) => {
+    // usuarioModel.findById(id, (err, usuario) => {
+    usuarioModel.findByIdAndUpdate(id, body, { new: true }, (err, usuario) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
