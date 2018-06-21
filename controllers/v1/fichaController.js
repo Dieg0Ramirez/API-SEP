@@ -25,7 +25,7 @@ function updateficha(req, res) {
     var id = req.params.id
     var body = req.body;
 
-    fichaModel.findById(id, (err, ficha) => {
+    fichaModel.findByIdAndUpdate(id, body, { new: true }, (err, ficha) => {
         if (err) {
             return res.status(500).json({
                 ok: false,

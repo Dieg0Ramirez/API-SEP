@@ -25,7 +25,7 @@ function updateAprendiz(req, res) {
     var id = req.params.id
     var body = req.body;
 
-    aprendizModel.findById(id, (err, aprendiz) => {
+    aprendizModel.findByIdAndUpdate(id, body, { new: true }, (err, aprendiz) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -42,7 +42,7 @@ function updateAprendiz(req, res) {
             });
         }
 
-        aprendiz.tipoDocumento = body.tipoDocumento;
+        S.tipoDocumento = body.tipoDocumento;
         aprendiz.numeroDocumento = body.numeroDocumento;
         aprendiz.ficha = body.ficha;
         aprendiz.nombre = body.nombre;

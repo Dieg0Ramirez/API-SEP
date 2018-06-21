@@ -25,7 +25,7 @@ function updateEstado(req, res) {
     var id = req.params.id
     var body = req.body;
 
-    estadoModel.findById(id, (err, estado) => {
+    estadoModel.findByIdAndUpdate(id, body, { new: true }, (err, estado) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
