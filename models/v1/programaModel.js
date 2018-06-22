@@ -11,8 +11,9 @@ var programaSchema = new Schema({
         required: [true, 'El nombre es necesario']
     },
     nivelFormacion: {
-        type: String,
-        required: [true, 'El nivel es necesario']
+        type: Schema.ObjectId,
+        ref: 'NivelFormacion',
+        required: [true, 'El Nivel de Formación es necesario']
     },
     disponible: {
         type: Boolean,

@@ -28,6 +28,7 @@ var programaRoutesV1 = require('./routes/v1/programaRoutes')
 var nivelFormacionV1 = require('./routes/v1/nivelFormacionRoutes');
 var tipoDocumentoV1 = require('./routes/v1/tipoDocumentoRoutes');
 var fichaV1 = require('./routes/v1/fichaRoutes');
+var excelRouteV1 = require('./routes/v1/excelRoutes');
 
 //conexion a la base de datos
 
@@ -51,10 +52,14 @@ app.use('/api/v1', usuarioRoutesV1);
 app.use('/api/v1', programaRoutesV1);
 app.use('/api/v1', busquedaRoutesV1);
 app.use('/api/v1', appRoutesV1);
+app.use('/api/v1', excelRouteV1);
 
-
-
-//activar servidor
-app.listen(3000, () => {
+var io = require('socket.io').listen(app.listen(3000, () => {
     console.log('Corriendo puerto 3000: \x1b[32m%s\x1b[0m', 'online');
+}), {log: false, origins: '*:*'});
+
+io.sockets.on('connection', function(socket){
+    console.log('Cliente de Socket Conectado');
 });
+
+global.io = io;

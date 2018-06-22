@@ -8,12 +8,9 @@ var fichaSchema = new Schema({
         required: [true, 'la cadena es necesario']
     },
     programa: {
-        type: String,
+        type: Schema.ObjectId,
+        ref: 'Programa',
         required: [true, 'El programa es necesario']
-    },
-    nivelFormacion: {
-        type: String,
-        required: [true, 'El nivel es necesario']
     },
     fechaInicio: {
         type: String,
@@ -34,8 +31,7 @@ var fichaSchema = new Schema({
     disponible: {
         type: Boolean,
         default: true
-    },
-
+    }
 });
 
 module.exports = mongoose.model('Ficha', fichaSchema);

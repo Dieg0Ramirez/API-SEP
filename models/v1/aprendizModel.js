@@ -6,7 +6,8 @@ var Schema = mongoose.Schema;
 
 var aprendizSchema = new Schema({
     tipoDocumento: {
-        type: String,
+        type: Schema.ObjectId,
+        ref: 'TipoDocumento',
         required: [true, 'El tipo de documento es necesario']
     },
     numeroDocumento: {
@@ -15,7 +16,8 @@ var aprendizSchema = new Schema({
         required: [true, 'El numero de documento es necesario']
     },
     ficha: {
-        type: String,
+        type: Schema.ObjectId,
+        ref: 'Ficha',
         required: [true, 'La ficha es necesaria']
     },
     nombre: {
@@ -27,20 +29,16 @@ var aprendizSchema = new Schema({
         required: [true, 'El apellido es necesario']
     },
     genero: {
-        type: String,
-        required: [true, 'El genero es necesario']
+        type: String
     },
     telefono: {
-        type: String,
-        required: [true, 'El numero de telefono es necesario']
+        type: String
     },
     celular: {
-        type: String,
-        required: [true, 'El numero de celular es necesario']
+        type: String
     },
     correo: {
-        type: String,
-        required: [true, 'El correo es necesario']
+        type: String
     },
     disponible: {
         type: Boolean,
