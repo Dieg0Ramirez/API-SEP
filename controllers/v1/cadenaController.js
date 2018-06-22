@@ -25,7 +25,7 @@ function updateCadena(req, res) {
     var id = req.params.id;
     var body = req.body;
 
-    cadenaModel.findById(id, (err, cadena) => {
+    cadenaModel.findByIdAndUpdate(id, body, { new: true }, (err, cadena) => {
         if (err) {
             return res.status(500).json({
                 ok: false,

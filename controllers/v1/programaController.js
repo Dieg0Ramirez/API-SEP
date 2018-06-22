@@ -28,7 +28,7 @@ function updatePrograma(req, res) {
     var id = req.params.id;
     var body = req.body;
 
-    programaModel.findById(id, (err, programa) => {
+    programaModel.findByIdAndUpdate(id, body, { new: true }, (err, programa) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
