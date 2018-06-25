@@ -2,7 +2,7 @@ var programaModel = require('../../models/v1/programaModel');
 
 function getProgramas(req, res) {
 
-    programaModel.find({}).exec(
+    programaModel.find({}).populate({ path: 'nivelFormacion' }).exec(
         (err, programas) => {
             if (err) {
                 return res.status(500).json({
