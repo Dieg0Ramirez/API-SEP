@@ -1,6 +1,9 @@
+'use strict'
+
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var path = require('path');
 
 //Inicializar variable
 var app = express();
@@ -29,6 +32,7 @@ var nivelFormacionV1 = require('./routes/v1/nivelFormacionRoutes');
 var tipoDocumentoV1 = require('./routes/v1/tipoDocumentoRoutes');
 var fichaV1 = require('./routes/v1/fichaRoutes');
 var excelRouteV1 = require('./routes/v1/excelRoutes');
+var alternativaRouteV1 = require('./routes/v1/alternativaRoutes');
 
 //conexion a la base de datos
 
@@ -53,6 +57,7 @@ app.use('/api/v1', programaRoutesV1);
 app.use('/api/v1', busquedaRoutesV1);
 app.use('/api/v1', appRoutesV1);
 app.use('/api/v1', excelRouteV1);
+app.use('/api/v1', alternativaRouteV1);
 
 var io = require('socket.io').listen(app.listen(3000, () => {
     console.log('Corriendo puerto 3000: \x1b[32m%s\x1b[0m', 'online');
@@ -62,4 +67,4 @@ io.sockets.on('connection', function(socket){
     console.log('Cliente de Socket Conectado');
 });
 
-global.io = io;
+app.set('socketio', io);

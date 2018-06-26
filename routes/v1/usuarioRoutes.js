@@ -18,7 +18,7 @@ app.put('/usuario/:id', mdAutenticacion.verificaToken, usuarioController.updateU
 // crear un nuevo usuarios 
 // ==========================================
 
-app.post('/usuario/', mdAutenticacion.verificaToken, usuarioController.saveUsuario);
+app.post('/usuario/', usuarioController.saveUsuario);
 
 
 
