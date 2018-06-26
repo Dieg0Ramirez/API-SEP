@@ -44,7 +44,11 @@ var aprendizSchema = new Schema({
         type: Boolean,
         default: true
     },
-
+    estado: {
+        type: Schema.ObjectId,
+        ref: 'Estado',
+        required: [true, 'El Estado es necesario']
+    },
 });
 
 aprendizSchema.plugin(uniqueValidator, { message: 'El numero de documento debe ser unico' });

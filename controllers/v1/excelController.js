@@ -11,6 +11,7 @@ var nivelFormacionModel = require('../../models/v1/nivelFormacionModel');
 var programaModel = require('../../models/v1/programaModel');
 var fichaModel = require('../../models/v1/fichaModel');
 var tipoDocumentoModel = require('../../models/v1/tipoDocumentoModel');
+var estadoModel = require('../../models/v1/estadoModel');
 var aprendizModel = require('../../models/v1/aprendizModel');
 
 var storage = multer.diskStorage({ //Configuración para almacenar en multer
@@ -36,6 +37,8 @@ var upload = multer({ //Configuraciones de multer
 
 
 function juiciosEvaluativos(req, res) {
+
+    var io = req.app.get('socketio');
 
     var nivelFormacion = req.params.nivelFormacion;
 
@@ -117,7 +120,8 @@ function juiciosEvaluativos(req, res) {
 
                             nivelFormacionModel.findOneAndUpdate({ nombre: nivelFormacion },
                                 {
-                                    nombre: nivelFormacion
+                                    nombre: nivelFormacion,
+                                    disponible: true
 
                                 }, { upsert: true, 'new': true }, (error, nivelFormacionStored) => {
 
@@ -132,7 +136,8 @@ function juiciosEvaluativos(req, res) {
                             programaModel.findOneAndUpdate({ nombre: encabezado[3].C },
                                 {
                                     nombre: encabezado[3].C,
-                                    nivelFormacion: nivelFormacion._id
+                                    nivelFormacion: nivelFormacion._id,
+                                    disponible: true
 
                                 }, { upsert: true, 'new': true }, (error, programaStored) => {
 
@@ -152,7 +157,8 @@ function juiciosEvaluativos(req, res) {
                                 fechaInicio: encabezado[5].C,
                                 fechaFin: encabezado[6].C,
                                 modalidad: encabezado[7].C,
-                                centro: encabezado[9].C
+                                centro: encabezado[9].C,
+                                disponible: true
 
                             }, { upsert: true, 'new': true }, (error, fichaStored) => {
 
@@ -173,7 +179,8 @@ function juiciosEvaluativos(req, res) {
 
                                         tipoDocumentoModel.findOneAndUpdate({ nombre: registro['A'] },
                                             {
-                                                nombre: registro['A']
+                                                nombre: registro['A'],
+                                                disponible: true
                                             },
                                             { upsert: true, 'new': true }, (error, tipoDocumentoStored) => {
 
@@ -182,8 +189,23 @@ function juiciosEvaluativos(req, res) {
                                             });
                                     },
 
-                                    //Guarda el aprendiz
+                                    //Guarda el estado 'Sin Seguimiento' para los aprendices
                                     (tipoDocumento, next) => {
+
+                                        estadoModel.findOneAndUpdate({ nombre: 'Sin Seguimiento' },
+                                            {
+                                                nombre: 'Sin Seguimiento',
+                                                disponible: true
+                                            },
+                                            { upsert: true, 'new': true }, (error, estadoStored) => {
+
+                                                next(null, tipoDocumento, estadoStored);
+
+                                            });
+                                    },
+
+                                    //Guarda el aprendiz
+                                    (tipoDocumento, estado, next) => {
 
                                         aprendizModel.findOneAndUpdate({ numeroDocumento: registro['B'] },
                                             {
@@ -196,6 +218,8 @@ function juiciosEvaluativos(req, res) {
                                                 telefono: 'Sin Especificar',
                                                 celular: 'Sin Especificar',
                                                 correo: 'Sin Especificar',
+                                                disponible: true,
+                                                estado: estado._id
 
                                             }, { upsert: true, 'new': true }, (error, aprendizStored) => {
 
@@ -218,7 +242,7 @@ function juiciosEvaluativos(req, res) {
                                     result.sizeExcel = sizeExcel;
                                     result.iteracion = iteracion;
 
-                                    global.io.emit('processRowExcelAprendices', result);
+                                    io.emit('processRowExcelAprendices', result);
 
                                     if (iteracion == sizeExcel) {
                                         next(null);
@@ -246,7 +270,7 @@ function juiciosEvaluativos(req, res) {
                             //     response: true
                             // });
 
-                            global.io.emit('processFullExcelAprendices', result);
+                            io.emit('processFullExcelAprendices', result);
                         }
                     ]);
 
