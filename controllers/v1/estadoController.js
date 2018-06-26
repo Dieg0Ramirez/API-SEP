@@ -120,40 +120,10 @@ function changeAvailability(req, res) {
 
 }
 
-function deleteEstado(req, res) {
 
-    var id = req.params.id;
-
-    estadoModel.findByIdAndRemove(id, (err, estadoBorrado) => {
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                mensaje: 'Error al borrar estado',
-                errors: err
-            });
-        }
-
-        if (!estadoBorrado) {
-            return res.status(400).json({
-                ok: false,
-                mensaje: 'No existe un estado con ese id',
-                errors: err
-            });
-        }
-
-        res.status(200).json({
-            ok: true,
-            message: 'El siguiente estado fue borrado',
-            estado: estadoBorrado
-        });
-
-    });
-
-}
 module.exports = {
     getEstado: getEstado,
     updateEstado: updateEstado,
     saveEstado: saveEstado,
-    deleteEstado: deleteEstado,
     changeAvailability: changeAvailability
 }

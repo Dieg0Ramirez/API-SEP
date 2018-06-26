@@ -18,10 +18,6 @@ app.put('/estado/:id', mdAutenticacion.verificaToken, estadoController.updateEst
 // ==========================================
 app.post('/estado/', mdAutenticacion.verificaToken, estadoController.saveEstado);
 
-// ==========================================
-// borrar un estado
-// ==========================================
-app.delete('/estado/:id', mdAutenticacion.verificaToken, estadoController.deleteEstado);
 
 
 //====================================================
