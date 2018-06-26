@@ -20,6 +20,11 @@ var aprendizSchema = new Schema({
         ref: 'Ficha',
         required: [true, 'La ficha es necesaria']
     },
+    alternativa: {
+        type: Schema.ObjectId,
+        ref: 'Alternativa',
+        required: [true, 'La alternativa de etapa práctica es necesaria']
+    },
     nombre: {
         type: String,
         required: [true, 'El nombre es necesario']

@@ -12,6 +12,7 @@ var programaModel = require('../../models/v1/programaModel');
 var fichaModel = require('../../models/v1/fichaModel');
 var tipoDocumentoModel = require('../../models/v1/tipoDocumentoModel');
 var estadoModel = require('../../models/v1/estadoModel');
+var alternativaModel = require('../../models/v1/alternativaModel');
 var aprendizModel = require('../../models/v1/aprendizModel');
 
 var storage = multer.diskStorage({ //Configuración para almacenar en multer
@@ -204,8 +205,23 @@ function juiciosEvaluativos(req, res) {
                                             });
                                     },
 
-                                    //Guarda el aprendiz
+                                    // Guarda la alternativa 'Sin Alternativa'
                                     (tipoDocumento, estado, next) => {
+
+                                        alternativaModel.findOneAndUpdate({ nombre: 'Sin Alternativa' },
+                                            {
+                                                nombre: 'Sin Alternativa',
+                                                disponible: true
+                                            },
+                                            { upsert: true, 'new': true }, (error, alternativaStored) => {
+
+                                                next(null, tipoDocumento, estado, alternativaStored);
+
+                                            });
+                                    },
+
+                                    //Guarda el aprendiz
+                                    (tipoDocumento, estado, alternativa, next) => {
 
                                         aprendizModel.findOneAndUpdate({ numeroDocumento: registro['B'] },
                                             {
@@ -219,7 +235,8 @@ function juiciosEvaluativos(req, res) {
                                                 celular: 'Sin Especificar',
                                                 correo: 'Sin Especificar',
                                                 disponible: true,
-                                                estado: estado._id
+                                                estado: estado._id,
+                                                alternativa: alternativa._id
 
                                             }, { upsert: true, 'new': true }, (error, aprendizStored) => {
 
