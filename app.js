@@ -26,12 +26,12 @@ var loginRoutesV1 = require('./routes/v1/loginRoutes');
 var estodoRoutesV1 = require('./routes/v1/estadoRoutes');
 var cadenaRoutesV1 = require('./routes/v1/cadenaRoutes');
 var programaRoutesV1 = require('./routes/v1/programaRoutes');
-var programaRoutesV1 = require('./routes/v1/programaRoutes')
-var nivelFormacionV1 = require('./routes/v1/nivelFormacionRoutes');
-var tipoDocumentoV1 = require('./routes/v1/tipoDocumentoRoutes');
-var fichaV1 = require('./routes/v1/fichaRoutes');
-var excelRouteV1 = require('./routes/v1/excelRoutes');
-var alternativaRouteV1 = require('./routes/v1/alternativaRoutes');
+var nivelFormacionRoutesV1 = require('./routes/v1/nivelFormacionRoutes');
+var tipoDocumentoRoutesV1 = require('./routes/v1/tipoDocumentoRoutes');
+var fichaRoutesV1 = require('./routes/v1/fichaRoutes');
+var excelRoutesV1 = require('./routes/v1/excelRoutes');
+var alternativaRoutesV1 = require('./routes/v1/alternativaRoutes');
+var aprendizRoutesV1 = require('./routes/v1/aprendizRoutes');
 
 //conexion a la base de datos
 
@@ -45,17 +45,19 @@ mongoose.connection.openUri(`mongodb://${hostMongo}:${portMongo}/seguimiento_sep
 });
 
 //rutas
-app.use('/api/v1', fichaV1);
-app.use('/api/v1', tipoDocumentoV1);
-app.use('/api/v1', nivelFormacionV1);
+app.use('/api/v1', aprendizRoutesV1);
+app.use('/api/v1', fichaRoutesV1);
+app.use('/api/v1', tipoDocumentoRoutesV1);
+app.use('/api/v1', nivelFormacionRoutesV1);
 app.use('/api/v1', cadenaRoutesV1);
 app.use('/api/v1', estodoRoutesV1);
 app.use('/api/v1', loginRoutesV1);
 app.use('/api/v1', usuarioRoutesV1);
 app.use('/api/v1', programaRoutesV1);
 app.use('/api/v1', appRoutesV1);
-app.use('/api/v1', excelRouteV1);
-app.use('/api/v1', alternativaRouteV1);
+app.use('/api/v1', excelRoutesV1);
+app.use('/api/v1', alternativaRoutesV1);
+
 
 var io = require('socket.io').listen(app.listen(3000, () => {
     console.log('Corriendo puerto 3000: \x1b[32m%s\x1b[0m', 'online');

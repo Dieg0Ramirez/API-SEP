@@ -2,22 +2,26 @@ var aprendizModel = require('../../models/v1/aprendizModel');
 
 function getAprendiz(req, res) {
 
-    aprendizModel.find({}).exec(
-        (err, aprendiz) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    mensaje: 'Error al cargar los aprendices',
-                    errors: err
+    aprendizModel.find({}).populate({ path: 'tipoDocumento', select: 'nombre' })
+        .populate({ path: 'ficha', select: 'numeroFicha' })
+        .populate({ path: 'estado', select: 'nombre' })
+        .populate({ path: 'alternativa', select: 'nombre' })
+        .exec(
+            (err, aprendiz) => {
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        mensaje: 'Error al cargar los aprendices',
+                        errors: err
+                    });
+                }
+
+                res.status(200).json({
+                    ok: true,
+                    aprendiz: aprendiz
                 });
-            }
 
-            res.status(200).json({
-                ok: true,
-                aprendiz: aprendiz
             });
-
-        });
 }
 
 function updateAprendiz(req, res) {
@@ -42,7 +46,7 @@ function updateAprendiz(req, res) {
             });
         }
 
-        S.tipoDocumento = body.tipoDocumento;
+        tipoDocumento = body.tipoDocumento;
         aprendiz.numeroDocumento = body.numeroDocumento;
         aprendiz.ficha = body.ficha;
         aprendiz.nombre = body.nombre;
@@ -73,18 +77,19 @@ function updateAprendiz(req, res) {
 
 function saveAprendiz(req, res) {
 
+
     var body = req.body;
 
     var aprendiz = new aprendizModel({
-        tipoDocumento = body.tipoDocumento,
-        numeroDocumento = body.numeroDocumento,
-        ficha = body.ficha,
-        nombre = body.nombre,
-        apellido = body.apellido,
-        genero = body.genero,
-        telefono = body.telefono,
-        celular = body.celular,
-        correo = body.correo
+        tipoDocumento: body.tipoDocumento,
+        numeroDocumento: body.numeroDocumento,
+        ficha: body.ficha,
+        nombre: body.nombre,
+        apellido: body.apellido,
+        genero: body.genero,
+        telefono: body.telefono,
+        celular: body.celular,
+        correo: body.correo
     });
 
     aprendiz.save((err, aprendizGuardado) => {

@@ -6,7 +6,7 @@ var mdAutenticacion = require('./../../middlewares/v1/autenticacion');
 // ==========================================
 // obtener todos los estados
 // ==========================================
-app.get('/ficha/', fichaController.getFicha);
+app.get('/ficha/', mdAutenticacion.verificaToken, fichaController.getFicha);
 
 // ==========================================
 // actualizar un estado
