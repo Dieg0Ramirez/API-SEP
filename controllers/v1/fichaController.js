@@ -2,7 +2,7 @@ var fichaModel = require('../../models/v1/fichaModel');
 
 function getFicha(req, res) {
 
-    fichaModel.find({}).exec(
+    fichaModel.find({}).populate({ path: 'programa', select: 'nombre' }).exec(
         (err, fichas) => {
             if (err) {
                 return res.status(500).json({
