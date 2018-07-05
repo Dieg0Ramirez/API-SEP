@@ -15,6 +15,11 @@ var programaSchema = new Schema({
         ref: 'NivelFormacion',
         required: [true, 'El Nivel de Formación es necesario']
     },
+    cadena: {
+        type: Schema.ObjectId,
+        ref: 'Cadena',
+        required: [true, 'la cadena de formacion es necesaria']
+    },
     disponible: {
         type: Boolean,
         default: true

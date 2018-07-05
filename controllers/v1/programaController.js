@@ -2,25 +2,28 @@ var programaModel = require('../../models/v1/programaModel');
 
 function getProgramas(req, res) {
 
-    programaModel.find({}).populate({ path: 'nivelFormacion' }).exec(
-        (err, programas) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    mensaje: 'Error cargando programas',
-                    errors: err
-                });
-            }
+    programaModel.find({})
+        .populate({ path: 'nivelFormacion' })
+        .populate({ path: 'cadena' })
+        .exec(
+            (err, programas) => {
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        mensaje: 'Error cargando programas',
+                        errors: err
+                    });
+                }
 
-            programaModel.count({}, (err, conteo) => {
-                res.status(200).json({
-                    ok: true,
-                    programas: programas,
-                    total: conteo,
+                programaModel.count({}, (err, conteo) => {
+                    res.status(200).json({
+                        ok: true,
+                        programas: programas,
+                        total: conteo,
+                    });
                 });
+
             });
-
-        });
 }
 
 function updatePrograma(req, res) {
@@ -47,6 +50,7 @@ function updatePrograma(req, res) {
 
         programa.nombre = body.nombre;
         programa.nivelFormacion = body.nivelFormacion;
+        programa.cadena = body.cadena;
 
         programa.save((err, programaActualizado) => {
 
@@ -73,7 +77,8 @@ function savePrograma(req, res) {
 
     var programa = new programaModel({
         nombre: body.nombre,
-        nivelFormacion: body.nivelFormacion
+        nivelFormacion: body.nivelFormacion,
+        cadena: body.cadena
     });
 
     programa.save((err, programaGuardado) => {
